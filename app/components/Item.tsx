@@ -5,7 +5,7 @@ import { AiOutlineRight } from "react-icons/ai";
 import { AiOutlineDown } from "react-icons/ai";
 
 interface ItemProps {
-    id?: number;
+    id?: string;
     documentIcon?: string;
     active?: boolean;
     expanded?: boolean;
@@ -15,51 +15,58 @@ interface ItemProps {
     onClick: () => void;
     label: string;
     icon?: React.ReactNode;
+    isParent: boolean;
 }
 
 const Item = ({
   id,
   documentIcon,
-  active,
+  //   active,
   expanded,
   isSearch,
   level = 0,
   onExpand,
   label,
-  onClick,
-  icon
+  //   onClick,
+  //   icon,
+  isParent
 }: ItemProps) => {
   const ArrowIcon = expanded ? <AiOutlineDown className="h-4 w-4 shrink-0 text-stone-600" /> : <AiOutlineRight className="h-4 w-4 shrink-0 text-stone-600" />;
 
   return (
     <div
-      onClick={onClick}
+      onClick={onExpand}
       role='button'
       style={{ 
         paddingLeft : level ? `${(level * 12) + 12}px` : '12px' 
       }}
       className={cn(
         "group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium",
-        // active && "bg-purple-300"
       )}
     >
-      {!!id && (
+      {isParent && !!id ? (
         <div
           role="button"
-          className="h-full rounded-sm hover:bg-stone-300 mr-1"
+          className="h-full rounded-md hover:bg-stone-100 mr-1 p-1"
           onClick={() => {}}
         >
           {ArrowIcon}
         </div>
+      ): (
+        <div
+          role="button"
+          className="h-full rounded-sm hover:bg-stone-300 mr-1 ml-2"
+          onClick={() => {}}
+        />
       )}
       {documentIcon ? (
         <div className="shrink-0 mr-2 text-[18px]">
           {documentIcon}
         </div>
       ) : (
-        <p>아이콘</p>
+        <p>📁</p>
       )}
-      <span className="truncate">
+      <span className="truncate text-stone-700 font-light">
         {label}
       </span>
       {isSearch && (
@@ -68,7 +75,7 @@ const Item = ({
         font-medium text-stone-300 opacity-100">
           <span className="text-xs">
                 CMD
-          </span>k
+          </span>
         </kbd>
       )}
     </div>

@@ -1,9 +1,10 @@
 export type DOCUMENT_TYPE = {
-    id: number;
+    id: string;
     title: string;
-    parentDocument?: number;
-    content: string;
+    parentDocument?: string;
+    children: DOCUMENT_TYPE[] | null;
     icon?: string;
+    content?: string;
     corverImage?: string;
     userId?: number;
     isArchived?: boolean;

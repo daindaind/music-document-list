@@ -6,19 +6,19 @@ import Item from "./Item";
 import { DOCUMENT_TYPE } from "@/types/type";
 
 interface DocumentsListProps {
-  parentDocumentId?: number;
+  parentDocumentId?: string;
   level?: number;
   data?: DOCUMENT_TYPE[];
 }
 
 const DocumentsList = ({
-  parentDocumentId,
+  // parentDocumentId,
   level = 0,
   data = []
 }: DocumentsListProps) => {
-  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const onExpand = (documentId: number) => {
+  const onExpand = (documentId: string) => {
     setExpanded(prevExpanded => ({
       ...prevExpanded,
       [documentId]: !prevExpanded[documentId]
@@ -32,7 +32,7 @@ const DocumentsList = ({
           paddingLeft: level ? `${(level * 12) + 25}px` : undefined
         }}
         className={cn(
-          "text-sm font-medium text-muted-foreground/80",
+          "text-sm font-medium text-stone-300",
           level === 0 && "hidden"
         )}
         >
@@ -49,14 +49,15 @@ const DocumentsList = ({
             level={level}
             onExpand={() => onExpand(document.id)}
             expanded={expanded[document.id]}
+            isParent={document.children  ? true : false}
           />
-          {/* {expanded[document.id] && document?.children && (
+          {expanded[document.id] && document?.children && (
             <DocumentsList 
               parentDocumentId={document.id}
               level={level + 1}
               data={document?.children}
             />
-          )} */}
+          )}
         </div>
       ))}
     </>
